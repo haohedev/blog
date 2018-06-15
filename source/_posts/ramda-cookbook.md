@@ -8,13 +8,16 @@ categories: FunctionalPrograming
 
 ## 背景
 在学习`函数式编程`的时候，无意中看到了[JS 函数式编程指南](https://legacy.gitbook.com/book/llh911001/mostly-adequate-guide-chinese/details)，使得对`函数式编程`的概念有了初步的认识。恰巧当前工作的重心在`node`这块开发，在学习`ES6`语法的同时，也强迫自己用`函数式编程`的思路去写代码。  
-工欲善其事必先利其器，选择一个优秀的库，就等于迈向了成功的大门。在看了很多评价`lodash`、`underscore`、`ramda`的文章之后，感觉被`ramda`的`pointfree`的风格吸引住了，很庆幸，有[先驱者](https://adispring.coding.me/)为ramda库的一系列文章做了翻译，使得更容易理解`ramda`的设计初衷与使用姿势。正是因为这一些列的文章，让我对`函数式编程`有了更高层的认识，犹如醍醐灌顶、豁然开朗。  
+工欲善其事必先利其器，选择一个优秀的库，就等于迈向了成功的大门。在看了很多评价`lodash`、`underscore`、`ramda`的文章之后，感觉被`ramda`的`pointfree`的风格吸引住了，很庆幸，有[先驱者](https://adispring.coding.me/)为`ramda`库的一系列文章做了翻译，使得更容易理解`ramda`的设计初衷与使用姿势。正是因为这一些列的文章，让我对`函数式编程`有了更高层的认识，犹如醍醐灌顶、豁然开朗。  
+虽然没有选择`lodash`和`underscore`, 但一有时间我一定会去阅读他们的文档，理解设计理念。同时也建议像我一样初学`JavaScript`的同学，多利用现有开源库会让你事半功倍，写出更健壮的代码。
 
 ## 初衷
 在工作中因为经常用到`ramda`库，会对常用的一些方法进行封装。在看到[ramda cookbook](https://github.com/ramda/ramda/wiki/Cookbook)的时候，犹如发现了宝藏一般，里面的内容覆盖了大部分常用的函数。通过看其实现的代码，对`ramda`的一些函数有了更深的理解。  
 
 虽然[ramda cookbook](https://github.com/ramda/ramda/wiki/Cookbook)中的函数比较全，但有时仍不免要自己实现一些特定需求的函数，因此才有了这篇文章。  
-> 本篇文章会随着需求的增加不定时更新。
+> 本篇文章会随着需求的增加不定时更新。  
+
+
 
 <!-- more -->
 

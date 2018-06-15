@@ -22,6 +22,8 @@ async getBooksAndAuthor(authorId) {
 ```
 上面的代码虽然在逻辑上看起来正确。但还是存在问题的。
 
+<!-- more -->
+
 1. `await bookModel.fetchAll()` 会一直等待直到 `fetchAll()` 返回.
 2. 然后`await authorModel.fetch(authorId)` 才会被调用.
 
