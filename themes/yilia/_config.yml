@@ -6,14 +6,14 @@ menu:
   函数式编程: /categories/FunctionalPrograming
   JavaScript: /categories/JavaScript
   PARSE: /categories/Parse
-  NODE-RED: /categories/Node-Red
+  # NODE-RED: /categories/Node-Red
 
 # SubNav
 subnav:
-  github: "#"
-  weibo: "#"
-  rss: "#"
-  zhihu: "#"
+  #github: "#"
+  #weibo: "#"
+  #rss: "#"
+  #zhihu: "#"
   #qq: "#"
   #weixin: "#"
   #jianshu: "#"
@@ -21,7 +21,7 @@ subnav:
   #segmentfault: "#"
   #bilibili: "#"
   #acfun: "#"
-  #mail: "mailto:litten225@qq.com"
+  mail: "mailto:hao.he@foxmail.com"
   #facebook: "#"
   #google: "#"
   #twitter: "#"
