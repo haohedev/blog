@@ -84,4 +84,10 @@ const flattenObj = obj => {
 ```javascript
 flattenObj({a:1, b:{c:3}, d:{e:{f:6}, g:[{h:8, i:9}, 0]}})
 //=> {"a": 1, "b.c": 3, "d.e.f": 6, "d.g.0.h": 8, "d.g.0.i": 9, "d.g.1": 0}
-```
+```  
+
+---
+> **本文作者：** 郝赫   
+> **本文链接：** https://zyzz.xyz/ramda-cookbook/   
+> **版权声明：** 本作品采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 进行许可。转载请注明出处！  
+> ![license](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)

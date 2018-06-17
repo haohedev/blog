@@ -16,7 +16,7 @@ timezone: Asia/Shanghai
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://zyzz.xyz
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
 
 # Directory
@@ -87,9 +87,12 @@ theme: yilia
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo: git@github.com:haohedev/haohedev.github.io.git
-  branch: master
+  - type: git
+    repo: git@github.com:haohedev/haohedev.github.io.git
+    branch: master
+  - type: git
+    repo: git@git.coding.net:heheniuniu219/heheniuniu219.coding.me.git
+    branch: master
 
 sitemap:
   path: sitemap.xml
