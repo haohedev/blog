@@ -23,17 +23,53 @@ categories: Parse
 可以看到，在`Parse Server`和`Parse LiveQuery Server`之间增加了`redis`作为中间层，`Parse Server`将数据推送至`Redis`中， `Parse LiveQuery Server`从`Redis`中订阅数据的变化。这样有效的避免了上述的问题。
 
 ## 问题
-通过上面的架构，我们可以知道性能的瓶颈在于更新数据。当我们有很多的点需要实时数据的更新时，这样的操作无疑会非常慢，毕竟数据的更新需要经历[CLP](http://docs.parseplatform.org/parse-server/guide/#class-level-permissions)和[ACL](http://docs.parseplatform.org/js/guide/#object-level-access-control)。而现在面临的需求是大批量的更新实时数据，但不需要将数据通过`ParseServer`平台进行存储。虽然有其他的解决方案，比如通过`rabbitmq`来进行数据的推送，但我们更希望 ***all in Parse*** 。通过分析源码，我们看到`LiveQuery Server`对数据的解析不会经过底层的IO， 仅仅是将推送的数据构造出`ParseObject`,因此我们的面临的问题是如何将数据高效的推送。
+通过上面的架构，我们可以知道性能的瓶颈在于更新数据。当我们有很多的点需要实时数据的更新时，这样的操作无疑会非常慢，毕竟数据的更新需要经历[CLP](http://docs.parseplatform.org/parse-server/guide/#class-level-permissions)和[ACL](http://docs.parseplatform.org/js/guide/#object-level-access-control)。而现在面临的需求是大批量的更新实时数据，但不需要将数据通过`Parse`平台进行存储。虽然有其他的解决方案，比如通过`rabbitmq`来进行数据的推送，`rabbitmq`有`Web STOMP`插件，其底层也通过`WebSockets`实现，但我们更希望所有的工作都在`Parse`上来完成，充分的利用`LiveQuery Server`基于条件的事件订阅机制。因此我们的面临的问题是在`Parse`平台上如何将数据高效的推送？
 > 更多关于`Parse`平台`CLP`和`ACL`和差异[官方文档](http://docs.parseplatform.org/js/guide/#clp-and-acl-interaction)的例子解释的很清晰。
 
 ## 解决方案  
 
 ### 分析
-通过上面的可扩展架构图，我们看到`Parse Server`将数据推送至`Redis`，而`LiveQuery Server`订阅`Redis`从而将数据推送至`LiveQuery Client`，因此我们可以对`Redis`做文章。如果知道`ParseServer`推送的主题和消息体，那么我们就可以绕过`Parse Server`从而实现实时数据的主动推送。
+首先，通过分析源码，我们看到`LiveQuery Server`对数据的解析不会经过底层的IO， 仅仅是将推送的数据构造出`ParseObject`。其次，通过上面的可扩展架构图，我们看到`Parse Server`将数据推送至`Redis`，而`LiveQuery Server`订阅`Redis`从而将数据推送至`LiveQuery Client`，因此我们可以对`Redis`做文章。如果知道`ParseServer`推送的`主题`和`消息体`，那么我们就可以绕过`Parse Server`从而实现数据的主动推送。
 
 ### 实现
-**敬请期待** 
+同样还是通过分析`Parse`的源码,可以看到推送的`主题`的格式`APP_ID`+ `事件类型`。用`APP_ID`作为前缀，目的是用以区分不同的应用。下面我们总结一下各个事件的`主题`和`消息体`:
+**新增数据：**  `主题`为`${APP_ID}afterSave`，`消息体`中仅有`currentParseObject`。  
+**更新数据：**  `主题`为`${APP_ID}afterSave`，`消息体`中包含`currentParseObject`和`originalParseObject`。  
+**删除数据：**  `主题`为`${APP_ID}afterDelete`，`消息体`中仅有`currentParseObject`。  
+`currentParseObject`和`originalParseObject`的结构是带有类型信息的`JSON`对象。之所以更新数据时需要`currentParseObject`和`originalParseObject`，是因为`LiveQuery`中有[enter-event](http://docs.parseplatform.org/js/guide/#enter-event)和[leave-event](http://docs.parseplatform.org/js/guide/#leave-event)。  
+``` json
+{
+    "currentParseObject": {
+        "score": 1337,
+        "playerName": "Sean Plott",
+        "cheatMode": false,
+        "createdAt": "2018-06-17T02:42:31.542Z",
+        "updatedAt": "2018-06-18T07:28:39.752Z",
+        "objectId": "c6m5FUyRqo",
+        "__type": "Object",
+        "className": "GameScore"
+    },
+    "originalParseObject": {
+        "score": 1337,
+        "playerName": "Sean Plott",
+        "cheatMode": true,
+        "createdAt": "2018-06-17T02:42:31.542Z",
+        "updatedAt": "2018-06-17T02:43:45.665Z",
+        "objectId": "c6m5FUyRqo",
+        "__type": "Object",
+        "className": "GameScore"
+    }
+}
+```
 
+上面提到过，`LiveQuery Server`从消息体中构造出`Parse Object`对象。也就是说消息体中有的属性，都会被传递到客户端，而消息体中不存在的属性，客户端自然也是接收不到的。所以我们只需要将我们的数据组织成上面的格式，对于不同的订阅条件，会由`LiveQuery Server`进行处理，从而实现数据的推送。
+
+### 数据模型
+既然已经知道了如何实现数据的主动推送，我们现在应该讨论一下如何应用到项目中，也就是说如何设计数据模型。
+
+**方案一：** 将实时数据和定义表存放在一起。  
+&emsp;&emsp;在定义表中可以不体现实时数据的字段，利用`Parse`[云函数](http://docs.parseplatform.org/cloudcode/guide/)中的`afterFind`触发器，获取实时数据并添加到查询后的对象中。这样当用户获取定义表数据时，实时数据字段自然也在其中。  
+**方案二：** 将实时数据表分开存储
 
 ---
 > **本文作者：** 郝赫   
