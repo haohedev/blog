@@ -3,10 +3,10 @@
 menu:
   主页: /
   归档: /archives/index.html
-  函数式编程: /categories/FunctionalPrograming
-  Elasticsearch: /categories/Elasticsearch
-  JavaScript: /categories/JavaScript
-  PARSE: /categories/Parse
+  # 函数式编程: /categories/FunctionalPrograming
+  #Elasticsearch: /categories/Elasticsearch
+  # JavaScript: /categories/JavaScript
+  # PARSE: /categories/Parse
   # NODE-RED: /categories/Node-Red
 
 # SubNav
