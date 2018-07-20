@@ -2,6 +2,7 @@
 title: async-await 陷阱
 date: 2018-06-15 09:54:10
 tags:
+    - JavaScript
 categories: JavaScript
 ---
 
