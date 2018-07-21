@@ -10,10 +10,11 @@ categories:
 ## 背景
 公司有自主研发的基于[OGRE](!https://www.ogre3d.org/)的三维引擎，同时引擎封装了`python2`的脚本，现想将三维引擎进一步封装成平台。考虑到前端框架更多，效果丰富，开发周期更短等优势，打算利用`WebUI`进行界面的开发，三维平台提供`API`接口供前端调用。
 
-<!-- more -->
 
 ## WebUI概念
 `WebUI`是指在`QMainWindow`中设置个渲染`OGRE`的`QWidget`，同时创建个透明背景的`QWebView`覆盖在`OGRE`窗口上方。因为设置了透明背景，因此页面中透明的部分可以直接看到`OGRE`窗口。设置`WA_TransparentForMouseEvents`属性，使得在透明的部分鼠标事件穿过页面直接送达给`OGRE`窗口。
+
+<!-- more -->
 
 ## QWebView VS QWebEngineView 
 `Qt`从5.6开始，移除了`WebKit`组件， 从而采用了`Chrome`内核的`WebEngine`组件。想使用`WebKit`内核并不重新编译的情况下，可以选择的`Qt`版本最高只有`5.5.1`。 虽然基于`Chrome`内核效率提升；但是由于架构的改变，使得`QWebEngineView`没有办法穿透鼠标事件，即使设置了`WA_TransparentForMouseEvents`也没有效果，相信这是`Qt`的`Bug`， 当以后的版本解决这个问题后，可以更新至`QWebEngineView`，会拥有更佳的体验效果。
