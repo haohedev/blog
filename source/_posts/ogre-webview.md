@@ -55,3 +55,9 @@ categories:
 ## 整体流程梳理
 
 ![流程](http://pc5axiqo2.bkt.clouddn.com/OGRE_QT.png)  
+
+---
+> **本文作者：** 郝赫   
+> **本文链接：** https://zyzz.xyz/ogre-webview/   
+> **版权声明：** 本作品采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 进行许可。转载请注明出处！  
+> ![license](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
