@@ -85,3 +85,9 @@ HLS流地址：http://localhost:8080/live/livestream.m3u8
 没有关系，我们只需要通过`FFMPEG`将视频转成`h.264`，将音频转成`aac`或`mp3`推到`SRS流媒体服务器`即可。
 - *其他未知的问题？*  
 可以参考官方的[wiki](https://github.com/ossrs/srs/wiki)或在[Issues](https://github.com/ossrs/srs/issues)中查找答案，基本上你想知道的，上面都会有答案的。
+
+---
+> **本文作者：** 郝赫   
+> **本文链接：** https://zyzz.xyz/video-surveillance-system/   
+> **版权声明：** 本作品采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh) 进行许可。转载请注明出处！  
+> ![license](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
