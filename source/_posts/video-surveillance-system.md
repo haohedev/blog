@@ -53,7 +53,7 @@ docker run -d --name srs -p 8080:8080 -p 1935:1935 -p 1985:1985 --restart=always
 
 2、 启动FFMPEG，将硬盘录像机的`RTSP`协议的视频流转换成`RTMP`协议的视频流并推送至`SRS流媒体服务器`：
 ```bash
-ffmpeg -rtsp_transport tcp -i rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream -vcodec copy -acodec aas -f flv rtmp://localhost:1935/live/livestream
+ffmpeg -rtsp_transport tcp -i rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream -vcodec copy -acodec aac -f flv rtmp://localhost:1935/live/livestream
 ```
 > **-rtsp_transport tcp**：rtsp流默认采用的udp传输，但海康用的tcp方式，因此我们需要指定强制用tcp的方式进行传输。  
 **-i**： 表示输入源，我们输入`硬盘录像机(DVR)`的`RTSP`协议地址。  
