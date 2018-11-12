@@ -20,9 +20,9 @@ categories: Video
 
 ## 协议的转换
 我们通过输入和输出来对`SRS流媒体服务器`做个最基本的了解。    
-**输入**：`RTMP`协议的视频流。  
+**输入**：`FLV`协议的视频流。  
 **输出**：`RTMP`、`HLS`、`FLV`等协议的输出。  
-现在市面上大部分的安防监控的协议都是`RTSP`，那么就很清晰了，我们只需要将`RTSP`协议转换成`RTMP`协议之后推送给`SRS流媒体服务器`，我们的任务就完成了。至于协议[转封成HLS](https://github.com/ossrs/srs/wiki/v2_CN_SampleHLS)或[转封成FLV](https://github.com/ossrs/srs/wiki/v2_CN_SampleHttpFlv)以及视频存储`（基于SRS的DVR）`等就交给`SRS流媒体服务器`了。  
+现在市面上大部分的安防监控的协议都是`RTSP`，那么就很清晰了，我们只需要将`RTSP`协议转换成`RTMP`协议之后推送给`SRS流媒体服务器`，我们的任务就完成了。至于协议[转封成HLS](https://github.com/ossrs/srs/wiki/v2_CN_SampleHLS)或[转封成FLV](https://github.com/ossrs/srs/wiki/v2_CN_SampleHttpFlv)以及[录制成FLV](https://github.com/ossrs/srs/wiki/v2_CN_DVR)等就交给`SRS流媒体服务器`了。  
 海康威视RTSP地址举例说明：  
 主码流取流: `rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream`  
 子码流取流:   `rtsp://admin:12345@192.0.0.64:554/h264/ch1/sub/av_stream` 
@@ -55,10 +55,10 @@ docker run -d --name srs -p 8080:8080 -p 1935:1935 -p 1985:1985 --restart=always
 ```bash
 ffmpeg -rtsp_transport tcp -i rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream -vcodec copy -acodec aas -f flv rtmp://localhost:1935/live/livestream
 ```
-> **-rtsp_transport tcp**：rtsp协议默认采用的udp传输，我们指定表示强制用tcp的方式进行传输，因为海康是tcp方式。  
+> **-rtsp_transport tcp**：rtsp流默认采用的udp传输，但海康用的tcp方式，因此我们需要指定强制用tcp的方式进行传输。  
 **-i**： 表示输入源，我们输入`硬盘录像机(DVR)`的`RTSP`协议地址。  
-**-vcodec copy**: 表示视频编码方式，因为海康默认就是h.264编码，因为我们拷贝源视流即可。  
-**-acodec aas**：表示音频编码方式，这里需要我们注意一下，海康的音频默认**不是**`aac`或`mp3`格式，因为不能拷贝原始流，需要进行一次转换。  
+**-vcodec copy**: 表示视频编码方式，因为海康默认就是h.264编码，因为我们拷贝原始流即可。  
+**-acodec aac**：表示音频编码方式，这里需要我们注意一下，海康的音频默认**不是**`aac`或`mp3`格式，因为不能拷贝原始流，需要进行转换。  
 **-f flv**：表示格式化成flv格式  
 最后推送到我们的流媒体服务器  
 ***注意：*** `localhost`替换成流媒体服务器地址。
