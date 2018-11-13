@@ -72,7 +72,7 @@ HLS流地址：http://localhost:8080/live/livestream.m3u8
 ## 问题
 
 - *为什么没有看见在浏览器里打开视频的部分？*  
-已经可以将协议转成`RTMP`、`HLS`、`FLV`了，前端有很多优秀的`js`库对`HLS`或`FLV`进行支持。
+已经可以将协议转成`RTMP`、`HLS`、`FLV`了，前端有很多优秀的`js`库对`HLS`或`FLV`进行支持。比如[百度媒体云播放器](https://cloud.baidu.com/doc/MCT/PlayerSDK.html#PlayerSDK)就支持`RTMP`和`HLS`流。
 - *为什么RTMP流可以播放但是HLS流不能播放？*  
 这个需要看SRS流媒体服务器的输出日志，我遇到的问题是因为音频编码不一直导致SRS不能正常的将流进行HLS的切分。如果`FFMPEG`指定`acodec copy`，但原始流不是`aac`或`mp3`，则会导致`RTMP`流可以看，但`HLS`不能看。
 - *有没有完整的实现代码？* 
