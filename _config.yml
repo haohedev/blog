@@ -91,7 +91,7 @@ deploy:
     repo: git@github.com:haohedev/haohedev.github.io.git
     branch: master
   - type: git
-    repo: git@git.coding.net:heheniuniu219/heheniuniu219.coding.me.git
+    repo: git@git.dev.tencent.com:heheniuniu219/heheniuniu219.coding.me.git
     branch: master
 
 sitemap:
