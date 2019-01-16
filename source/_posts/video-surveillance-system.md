@@ -31,7 +31,7 @@ categories: Video
 > 可以在`VLC`中的`打开网络串流中`输入`rtsp`的`uri`地址，即可测试是否可以正常获取`rtsp`流。
 
 ## 架构图
-![BASIC ARCHITECTURE](http://pc5axiqo2.bkt.clouddn.com/%E5%AE%89%E9%98%B2%E8%A7%86%E9%A2%91%E9%9B%86%E6%88%90%E7%9B%91%E6%8E%A7%E6%96%B9%E6%A1%88.png)   
+![BASIC ARCHITECTURE](video-surveillance-system/安防视频集成监控方案.png)   
 我们对这个图进行解释说明：  
 **采集服务**：我们自己实现的服务，可以通过`硬盘录像机(DVR)`的SDK获取`摄像头`的信息，并且可以启动`FFMPEG`对流进行转码。  
 **srs流媒体服务器**：指我们在docker中部署的`SRS`服务。  
